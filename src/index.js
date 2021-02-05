@@ -3,9 +3,14 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import './index.css';
 
+import { ThemeProvider } from 'styled-components'
+import { themes, defaultTheme } from './styled/themes'
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <ThemeProvider theme={themes[defaultTheme]}>
+      <App />
+    </ThemeProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );

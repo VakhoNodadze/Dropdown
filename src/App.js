@@ -3,11 +3,18 @@ import './App.css';
 import { Pizza } from './components/Icons';
 import Flex from './components/Flex';
 import Element from './components/Element';
-import FilterSvg from './assets/basic/filter.svg';
+import FilterSvg from 'assets/basic/filter.svg';
+import { Dineout } from 'components/Icons';
 import { CSSTransitionGroup } from 'react-transition-group';
+import Select from './components/Select';
 
 function App() {
 
+  const [value, setValue] = useState({
+    email: 'test',
+    role: 'employee'
+  });
+  
   const scrollerRef = useRef(null);
   const filterRef = useRef(null);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -32,9 +39,29 @@ function App() {
 
   return (
     <Flex height='100vh' direction='column' justify='center' align='center'>
+
+      <Flex width='300px'>
+        <Select
+          size="mini"
+          // name="slackUserRoles"
+          value={value.role}
+          placeholder="Select Role"
+          onChange={(val) => setValue({ ...value, role: val })}
+          options={[
+            {
+              label: 'Employee',
+              value: 'employee',
+              labelLeft: 'Dineout'
+            },
+            {
+              label: 'Recruiter',
+              value: 'recruiter',
+              labelLeft: 'Dineout'
+            }
+          ]}
+        />
+      </Flex>
       <Flex direction='column' width='300px'>
-        <div style={{ width: 300, height: 100, border: '1px solid black' }}>
-        </div>
         <Flex mt='10px'>
           <CSSTransitionGroup
             transitionName="example">
@@ -62,26 +89,12 @@ function App() {
             style={{ overflowX: 'scroll' }}
             className="scroller" 
             ref={scrollerRef}>
-            <Flex align='center' m='0 5px'>
-              <Pizza />
-              <span>Pizza</span>
-            </Flex>
-            <Flex align='center' m='0 5px'>
-              <Pizza />
-              <span>Chicken</span>
-            </Flex>
-            <Flex align='center' m='0 5px'>
-              <Pizza />
-              <span>Pizza</span>
-            </Flex>
-            <Flex align='center' m='0 5px'>
-              <Pizza />
-              <span>Pizza</span>
-            </Flex>
-            <Flex align='center' m='0 5px'>
-              <Pizza />
-              <span>Pizza</span>
-            </Flex>
+            {[...Array(5)].map((_, index) => (
+              <Flex align='center' m='0 5px'>
+                <Pizza />
+                <span>Pizza</span>
+              </Flex>
+            ))}
           </Flex>
         </Flex>
       </Flex>

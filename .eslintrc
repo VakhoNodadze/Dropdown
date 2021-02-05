@@ -1,6 +1,6 @@
 {
   "parserOptions": {
-    "ecmaVersion": 6,
+    "ecmaVersion": 2018,
     "sourceType": "module",
     "ecmaFeatures": {
       "jsx": true
@@ -17,21 +17,20 @@
       "warn",
       2
     ],
-    "semi": [
-      2,
-      "always"
-    ],
+//    "semi": [
+//      2,
+//      "warn"
+//    ],
     "object-curly-spacing": ["error", "always"],
     "quotes": ["error", "single"],
     "no-confusing-arrow": "warn",
-    "no-empty-function": "error",
     "no-lone-blocks": "error",
     "no-multi-spaces": "error",
     "no-underscore-dangle": "warn",
     "no-dupe-else-if": "warn",
     "arrow-parens": "warn",
     "default-case": "error",
-    "curly": "error",
+    "curly": "warn",
     "complexity": ["error", 20]
     //    "semi": 1
   }
