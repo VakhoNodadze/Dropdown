@@ -58,7 +58,7 @@ const Select = ({
   const inputRef = useRef()
 
   const Icon = icon ? icons[icon] : null
-  const { Spinner, Check, ChevronDown, Remove, IconItem } = icons
+  const { Spinner, Check, ChevronDown, ChevronTop, Remove, IconItem } = icons
 
   const id = generateId()
   const [input, setInput] = useState('');
@@ -146,10 +146,10 @@ const Select = ({
     setIsFocused(true)
   }
 
-  const handleBlur = () => {
-    setIsFocused(false)
-    onBlur(input)
-  }
+  // const handleBlur = () => {
+  //   setIsFocused(false)
+  //   onBlur(input)
+  // }
 
   const handleRemoveOption = i => {
     const newValues = [...selectedOptions]
@@ -247,7 +247,10 @@ const Select = ({
     if (!loading && !searchRemotely && !disabled) {
       return (
         <StyledChevronDown className="chevron" size={size}>
-          <ChevronDown size={size === 'mini' ? 11 : 14} />
+          {
+            isOpen ? <ChevronTop /> :
+                <ChevronDown size={size === 'mini' ? 11 : 14} />
+          }
         </StyledChevronDown>
       )
     }
@@ -366,7 +369,7 @@ const Select = ({
         maxWidth: '80%',
         opacity: item.disabled ? 0.4 : 1,
         color: selectedOptions.includes(item.value) ? 'red' : 'black' }}>
-        {item.heading ? <h5 style={{ color: item?.color }}>{item.label}</h5> : item.label}
+        {item.heading ? <h5 style={{ color: item.color }}>{item.label}</h5> : item.label}
       </span>
       {hasExclude && (
         <button

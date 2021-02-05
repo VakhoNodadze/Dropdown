@@ -4,4 +4,7 @@ export { default as ChevronDown } from './ChevronDown';
 export { default as Filter } from './Filter';
 export { default as Pizza } from './Pizaa';
 export { default as Dineout } from './Dineout';
+export { default as ChevronTop } from './ChevronTop';
 export { default as IconItem } from './IconItem';
+export { default as Reserved } from './Reserved';
+export { default as TakeAway } from './TakeAway';
