@@ -126,11 +126,12 @@ const StyledSearchBox = styled.input`
   }
 `;
 
+
 const StyledOptions = styled.div`
   visibility: ${(props) => (props.isOpen ? 'visible' : 'hidden')};
   position: absolute;
-  left: 0;
-  right: 0;
+  left: ${({ person }) => (person ? '-100%' : '0')};
+  right: ${({ calendar }) => (calendar ? '-100%' : '0')};
   top: ${(props) => (props.containerDimensions ? props.containerDimensions.height + 2 : 2)}px;
   border: solid 1px ${(props) => props.theme.color.border};
   box-shadow: ${(props) => props.theme.boxShadow.default};

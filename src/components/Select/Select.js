@@ -52,6 +52,8 @@ const Select = ({
   hideOnChoose,
   clearOnChoose,
   clearOnOpen,
+  person,
+  calendar,
   ...rest
 }) => {
   const containerRef = useRef()
@@ -66,6 +68,8 @@ const Select = ({
   const [selectedOptions, setSelectedOptions] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [isFocused, setIsFocused] = useState(false)
+
+  const [personNumber, setPersonNumber] = useState(0)
 
   const handleClear = e => {
     if (e) e.preventDefault()
@@ -122,54 +126,14 @@ const Select = ({
     [containerRef.current]
   )
 
-  const handleSearch = e => {
-    setInput(e.target.value)
-    onChangeInput(e.target.value)
-    if (!isOpen && e.target.value.length > 0) {
-      setTimeout(() => {
-        setIsOpen(true)
-      }, 100)
-    }
-    if (!openOnFocus && e.target.value.length === 0) {
-      setIsOpen(false)
-    }
-    return true
-  }
-
   const handleKeyPress = () => {}
 
-  const handleFocus = () => {
-    // if (isFocused) {
-    //   onBlur(input)
-    // }
-    // setIsFocused(!isFocused)
-    setIsFocused(true)
-  }
 
   // const handleBlur = () => {
   //   setIsFocused(false)
   //   onBlur(input)
   // }
 
-  const handleRemoveOption = i => {
-    const newValues = [...selectedOptions]
-    newValues.splice(i, 1)
-    onChange(newValues)
-  }
-
-  const handleInputKeyDown = e => {
-    const val = e.target.value
-    const { key } = e
-    if (key === 'Enter') e.preventDefault()
-    if (tags) {
-      if (key === ',' && val) {
-        onChange([...selectedOptions, val])
-        setInput('')
-      } else if (key === 'Backspace' && !val) {
-        handleRemoveOption(selectedOptions.length - 1)
-      }
-    }
-  }
 
   const handleExcludeClick = (e, val) => {
     e.preventDefault()
@@ -269,7 +233,7 @@ const Select = ({
     if ([...selectedOptions, ...excluded].length > 0 && multiple)
       return (
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div>{placeholder}</div>{' '}
+          <div style={{ color: 'black' }}>{placeholder}</div>{' '}
           <Label color="primary" size="small">
             {[...selectedOptions, ...excluded].length}
           </Label>
@@ -277,9 +241,15 @@ const Select = ({
       )
     if (selectedOptions.length > 0 && !multiple) {
       const optionFound = options.find(o => o.value === selectedOptions[0])
-      return optionFound ? optionFound.label : placeholder
+      return optionFound ?
+          <div style={{ color: '#FC6C44', display: 'flex', alignItems: 'center', fontSize: '15px' }}>
+            <IconItem name={optionFound.labelLeft} defaultColor='#FC6C44' />
+            <span style={{ marginLeft: 5 }}>{optionFound.label}</span>
+          </div>
+          :
+          <div style={{ color: '#000' }}>{placeholder}</div>
     }
-    if (placeholder) return placeholder
+    if (placeholder) return <div style={{ color: '#000' }}>{placeholder}</div>
     return null
   }
 
@@ -309,39 +279,6 @@ const Select = ({
     )
   }
 
-  const renderTags = () => {
-    if (selectedOptions.length > 0) {
-      return (
-        <>
-          {selectedOptions.map((item, index) => {
-            const option = options.find(o => o.value === item)
-            return (
-              <Label onRemove={() => handleRemoveOption(index)} style={{ margin: 2 }}>
-                {option ? option.label : item}
-              </Label>
-            )
-          })}
-        </>
-      )
-    }
-    return null
-  }
-
-  const renderSearchBox = () => {
-    return (
-      <div style={{ padding: '6px 12px 12px 12px' }}>
-        <StyledSearchBox
-          id={id}
-          ref={inputRef}
-          onChange={handleSearch}
-          onKeyDown={handleInputKeyDown}
-          value={input}
-          placeholder="Search..."
-          autoFocus
-        />
-      </div>
-    )
-  }
 
   const renderOptionItem = item => (
     <div style={{ display: 'flex', flexDirection: 'row', position: 'relative', alignItems: 'center' }}>
@@ -355,20 +292,19 @@ const Select = ({
           <div
               style={{
                 zIndex: 10,
-                marginRight: 5,
-                fill: 'red'
+                marginRight: 5
               }}
           >
             <IconItem
                 name={item.labelLeft}
-                activeColor={selectedOptions.includes(item.value) ? 'red' : 'black'}
-                defaultColor={selectedOptions.includes(item.value) ? 'red' : 'black'} />
+                activeColor={selectedOptions.includes(item.value) ? '#FC6C44' : 'black'}
+                defaultColor={selectedOptions.includes(item.value) ? '#FC6C44' : 'black'} />
           </div>
       )}
       <span style={{
         maxWidth: '80%',
         opacity: item.disabled ? 0.4 : 1,
-        color: selectedOptions.includes(item.value) ? 'red' : 'black' }}>
+        color: selectedOptions.includes(item.value) ? '#FC6C44' : 'black' }}>
         {item.heading ? <h5 style={{ color: item.color }}>{item.label}</h5> : item.label}
       </span>
       {hasExclude && (
@@ -390,7 +326,6 @@ const Select = ({
             isOpen={isOpen}
             containerDimensions={containerRef?.current?.getBoundingClientRect()}
           >
-            {hasSearchBox && renderSearchBox()}
             {filteredOptions.map(item => (
               <StyledOptionItem
                 key={`${item.value}-${Math.random()}`}
@@ -414,12 +349,41 @@ const Select = ({
     return null
   }
 
+  const renderPersonsGroup = () => {
+      return (
+          <>
+            <StyledOptions
+                className="options"
+                person
+                isOpen={isOpen}
+                containerDimensions={containerRef?.current?.getBoundingClientRect()}
+            >
+              <div>Hello</div>
+            </StyledOptions>
+          </>
+      )
+  }
+  const renderCalendar = () => {
+    return (
+        <>
+          <StyledOptions
+              className="options"
+              calendar
+              isOpen={isOpen}
+              containerDimensions={containerRef?.current?.getBoundingClientRect()}
+          >
+            <div>Hello</div>
+          </StyledOptions>
+        </>
+    )
+  }
+
   return (
     <StyledSelect
       ref={containerRef}
       key={name}
       id={name}
-      onClick={() => handleOpen()}
+      onClick={isOpen ? handleClose : handleOpen}
       onKeyDown={handleKeyPress}
       disabled={disabled}
       attached={attached}
@@ -435,28 +399,11 @@ const Select = ({
             <Icon color={isOpen || isFocused || selectedOptions.length > 0 ? 'rgba(0, 0, 0, 0.54)' : '#d9d9d9'} />
           </StyledIcon>
         )}
-        {tags && renderTags()}
-        {search && (
-          <StyledInput
-            id={id}
-            ref={inputRef}
-            hasRightAbsolute={searchRemotely}
-            onChange={handleSearch}
-            onFocus={handleFocus}
-            // onBlur={handleBlur}
-            onKeyDown={handleInputKeyDown}
-            value={input}
-            isOpen={isOpen}
-            hasIcon={icon}
-            size={size}
-            disabled={disabled}
-            hasTags={tags && selectedOptions.length > 0}
-            placeholder={tags && selectedOptions.length > 0 ? placeholder : null}
-          />
-        )}
         {renderRightAbsolute()}
       </StyledSelectContent>
-      {renderOptions()}
+      {/*{renderOptions()}*/}
+      {person ? renderPersonsGroup() : renderOptions()}
+      {calendar && renderCalendar()}
     </StyledSelect>
   )
 }
@@ -490,7 +437,9 @@ Select.propTypes = {
   onExcludeClick: PropTypes.func,
   hideOnChoose: PropTypes.bool,
   clearOnChoose: PropTypes.bool,
-  clearOnOpen: PropTypes.bool
+  clearOnOpen: PropTypes.bool,
+  person: PropTypes.bool,
+  calendar: PropTypes.bool
 }
 
 Select.defaultProps = {
@@ -522,7 +471,9 @@ Select.defaultProps = {
   onExcludeClick: () => {},
   hideOnChoose: true,
   clearOnChoose: true,
-  clearOnOpen: true
+  clearOnOpen: true,
+  person: false,
+  calendar: false
 }
 
 export default React.memo(Select)

@@ -45,21 +45,52 @@ function App() {
           size="mini"
           // name="slackUserRoles"
           value={value.role}
-          placeholder="Select Role"
+          placeholder="Dining Option"
           onChange={(val) => setValue({ ...value, role: val })}
           options={[
             {
-              label: 'Employee',
-              value: 'employee',
+              label: 'Dine out',
+              value: 'dine_out',
               labelLeft: 'Dineout'
             },
             {
-              label: 'Recruiter',
-              value: 'recruiter',
-              labelLeft: 'Dineout'
+              label: 'Reservation',
+              value: 'reservation',
+              labelLeft: 'Reserved'
+            },
+            {
+              label: 'Pick Up',
+              value: 'pick_up',
+              labelLeft: 'TakeAway'
+            },
+            {
+              label: 'Any',
+              value: 'any'
             }
           ]}
         />
+      </Flex>
+      <Flex width='300px'>
+        <Flex width='50%'>
+          <Select
+            size="mini"
+            // name="slackUserRoles"
+            value={value.role}
+            placeholder="Calendar"
+            calendar
+            onChange={(val) => setValue({ ...value, role: val })}
+          />
+        </Flex>
+        <Flex width='50%'>
+          <Select
+            size="mini"
+            // name="slackUserRoles"
+            value={value.role}
+            placeholder="Person"
+            person
+            onChange={(val) => setValue({ ...value, role: val })}
+          />
+        </Flex>
       </Flex>
       <Flex direction='column' width='300px'>
         <Flex mt='10px'>
