@@ -1,15 +1,36 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './App.css';
-import { Pizza } from './components/Icons';
+import { IconItem, Pizza } from './components/Icons';
 import Flex from './components/Flex';
 import Element from './components/Element';
-import FilterSvg from 'assets/basic/filter.svg';
 import { Dineout } from 'components/Icons';
 import { CSSTransitionGroup } from 'react-transition-group';
 import Select from './components/Select';
 
-function App() {
 
+const DINNINGOPTIONS = [
+  {
+    label: 'Dine out',
+    value: 'dine_out',
+    labelLeft: 'Dineout'
+  },
+  {
+    label: 'Reservation',
+    value: 'reservation',
+    labelLeft: 'Reserved'
+  },
+  {
+    label: 'Pick Up',
+    value: 'pick_up',
+    labelLeft: 'TakeAway'
+  },
+  {
+    label: 'Any',
+    value: 'any'
+  }
+]
+
+function App() {
   const [value, setValue] = useState({
     email: 'test',
     role: 'employee'
@@ -32,7 +53,7 @@ function App() {
     scrollerRef.current.addEventListener('scroll', handleScroll);
 
     return function cleanup() {
-      scrollerRef.current.removeEventListener('scroll', handleScroll);
+      scrollerRef?.current.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
@@ -43,40 +64,20 @@ function App() {
       <Flex width='300px'>
         <Select
           size="mini"
-          // name="slackUserRoles"
           value={value.role}
           placeholder="Dining Option"
+          borderRadius='4px 4px 0 0'
           onChange={(val) => setValue({ ...value, role: val })}
-          options={[
-            {
-              label: 'Dine out',
-              value: 'dine_out',
-              labelLeft: 'Dineout'
-            },
-            {
-              label: 'Reservation',
-              value: 'reservation',
-              labelLeft: 'Reserved'
-            },
-            {
-              label: 'Pick Up',
-              value: 'pick_up',
-              labelLeft: 'TakeAway'
-            },
-            {
-              label: 'Any',
-              value: 'any'
-            }
-          ]}
+          options={DINNINGOPTIONS}
         />
       </Flex>
       <Flex width='300px'>
         <Flex width='50%'>
           <Select
             size="mini"
-            // name="slackUserRoles"
             value={value.role}
             placeholder="Calendar"
+            borderRadius='0 0 0 4px'
             calendar
             onChange={(val) => setValue({ ...value, role: val })}
           />
@@ -87,6 +88,7 @@ function App() {
             // name="slackUserRoles"
             value={value.role}
             placeholder="Person"
+            borderRadius='0 0px 4px 0'
             person
             onChange={(val) => setValue({ ...value, role: val })}
           />
@@ -98,7 +100,7 @@ function App() {
             transitionName="example">
             <Flex p='5px' mr='5px' bg='#EFEFEF' align='center' borderRadius='5px' ref={filterRef}
               style={{ transition: 'all 0.3s ease-in', position: 'relative' }}>
-              <img src={FilterSvg} style={{ marginRight: isScrolled ? 0 : 5 }}/>
+              <IconItem name='Filter' style={{ marginRight: 5 }} />
               <CSSTransitionGroup
                 transitionName="example">
                 {isScrolled ?
@@ -121,7 +123,7 @@ function App() {
             className="scroller" 
             ref={scrollerRef}>
             {[...Array(5)].map((_, index) => (
-              <Flex align='center' m='0 5px'>
+              <Flex align='center' m='0 5px' key={index}>
                 <Pizza />
                 <span>Pizza</span>
               </Flex>

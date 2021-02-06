@@ -4,14 +4,19 @@ import { StyledContainer } from './styled'
 import * as icons from './index'
 
 const IconItem = ({
-  name, onClick, activeColor, defaultColor
+  name, onClick, activeColor, defaultColor, ...rest
 }) => {
   const Icon = name ? icons[name] : () => null
   const [isHovered, setIsHovered] = useState(false)
 
 
   return (
-    <StyledContainer onClick={onClick} onMouseEnter={() => setIsHovered(true)} onMouseLeave={() => setIsHovered(false)}>
+    <StyledContainer
+      onClick={onClick}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      {...rest}
+    >
       <Icon color={isHovered ? activeColor : defaultColor} />
     </StyledContainer>
   )

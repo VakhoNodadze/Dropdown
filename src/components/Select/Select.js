@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import {
   StyledSelect,
   StyledSelectContent,
-  StyledInput,
   StyledOptions,
   StyledOptionItem,
   StyledPlaceholder,
@@ -11,8 +10,7 @@ import {
   StyledSpinner,
   StyledCheckbox,
   StyledChevronDown,
-  StyledClear,
-  StyledSearchBox
+  StyledClear
 } from './styled';
 import Flex from 'components/Flex';
 
@@ -22,6 +20,7 @@ import Label from '../Label'
 import { attachs, sizes, variants } from 'styled/oneOf'
 
 import { generateId } from '../../utils/helpers'
+import Element from 'components/Element';
 
 const Select = ({
   name,
@@ -55,6 +54,7 @@ const Select = ({
   clearOnOpen,
   person,
   calendar,
+    borderRadius,
   ...rest
 }) => {
   const containerRef = useRef()
@@ -166,7 +166,7 @@ const Select = ({
     () => {
       if (!Array.isArray(options)) return undefined
       if (searchRemotely) return undefined
-      let filtered = []
+      let filtered
       if (startsWith) {
         filtered = options.filter(o => {
           const label = String(o.label).toLowerCase()
@@ -300,8 +300,6 @@ const Select = ({
     )
   }
 
-
-
   const renderOptionItem = item => (
     <div style={{ display: 'flex', flexDirection: 'row', position: 'relative', alignItems: 'center' }}>
       {checkbox && (
@@ -371,6 +369,13 @@ const Select = ({
     return null
   }
 
+  const renderColor = () => {
+    if(personNumber === 0){
+      return 'rgba(0,0,0,0.07)';
+    }
+    return 'rgba(0,0,0,1)'
+  }
+
   const renderPersonsGroup = () => {
       return (
           <>
@@ -380,12 +385,21 @@ const Select = ({
                 isOpen={isOpen}
                 containerDimensions={containerRef?.current?.getBoundingClientRect()}
             >
-              <Flex p={5} justify='between'>
-                <p><Person/> Group Size</p>
-                <Flex>
-                  <button onClick={handlePersonNumberMinus}>-</button>
+              <Flex p={5} justify='between' align='center'>
+                <p> <Person /> Group Size</p>
+                <Flex align='center'>
+                  <Element
+                      onClick={handlePersonNumberMinus}
+                           p={3} border={`1px solid ${renderColor()}`} borderRadius='50%' style={{ cursor: 'pointer' }}>
+                    <IconItem name='Minus' defaultColor={renderColor()} activeColor={renderColor()} />
+                  </Element>
+                  <span style={{ margin: '0 10px' }}>
                   {personNumber}
-                  <button onClick={handlePersonNumberPlus}>+</button>
+                  </span>
+                  <Element onClick={handlePersonNumberPlus}
+                           p={3} border='1px solid black' borderRadius='50%' style={{ cursor: 'pointer' }}>
+                    <IconItem name='Plus' activeColor='#000' />
+                  </Element>
                 </Flex>
               </Flex>
             </StyledOptions>
@@ -423,7 +437,7 @@ const Select = ({
       hasIcon={icon}
       {...rest}
     >
-      <StyledSelectContent className="content" search={search} error={error} size={size} variant={variant}>
+      <StyledSelectContent className="content" search={search} error={error} size={size} variant={variant} borderRadius={borderRadius}>
         {renderPlaceholder()}
         {icon && (
           <StyledIcon>
@@ -470,7 +484,8 @@ Select.propTypes = {
   clearOnChoose: PropTypes.bool,
   clearOnOpen: PropTypes.bool,
   person: PropTypes.bool,
-  calendar: PropTypes.bool
+  calendar: PropTypes.bool,
+  borderRadius: PropTypes.string
 }
 
 Select.defaultProps = {
@@ -504,7 +519,8 @@ Select.defaultProps = {
   clearOnChoose: true,
   clearOnOpen: true,
   person: false,
-  calendar: false
+  calendar: false,
+  borderRadius: ''
 }
 
 export default React.memo(Select)

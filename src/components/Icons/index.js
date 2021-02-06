@@ -9,3 +9,5 @@ export { default as IconItem } from './IconItem';
 export { default as Reserved } from './Reserved';
 export { default as TakeAway } from './TakeAway';
 export { default as Person } from './Person';
+export { default as Plus } from './Plus';
+export { default as Minus } from './Minus';

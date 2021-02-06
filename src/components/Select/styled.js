@@ -5,6 +5,7 @@ const StyledSelect = styled.div`
   width: 100%;
 
   & > .content {
+    height: 48px;
     ${(props) =>
     props.disabled &&
       css`
@@ -29,15 +30,14 @@ const StyledSelect = styled.div`
   }};
 
     & > .placeholder {
-      font-size: ${(props) => props.theme.fontSize[props.size]};
-      padding: 0 ${(props) => props.theme.spacing[props.size] * 2}px;
-      padding-left: ${(props) =>
-    (props.hasIcon ? `${props.theme.spacing.extraHuge}px` : `${props.theme.spacing[props.size] * 2}px`)};
+      font-size: 14px;
+      padding: 0 14px;
     }
 
     & > .chevron {
       font-size: ${(props) => props.theme.fontSize[props.size]};
       padding: 0 ${(props) => props.theme.spacing[props.size] * 2}px;
+      height: 100%;
     }
   }
 
@@ -63,7 +63,7 @@ const StyledSelectContent = styled.div`
     border-color: ${(props) => props.theme.color.borderHover};
   }
 
-  ${({ variant, theme, error }) => {
+  ${({ variant, theme, error, borderRadius }) => {
     switch (variant) {
     case 'basic':
       return css`
@@ -74,7 +74,7 @@ const StyledSelectContent = styled.div`
     default:
       return css`
           border: solid 1px ${theme.color.border};
-          border-radius: ${theme.borderRadius.default};
+          border-radius: ${borderRadius || theme.borderRadius.small};
           border-color: ${error ? theme.color.danger : theme.color.border};
           background-color: ${theme.color.elementBg};
         `;
@@ -149,7 +149,7 @@ const StyledOptions = styled.div`
       display: none;
       position: absolute;
       top: -3px;
-      right: 0px;
+      right: 0;
     }
 
     &:hover {
@@ -251,8 +251,8 @@ const StyledCheckbox = styled.div`
 
 const StyledChevronDown = styled.div`
   position: absolute;
-  top: 0px;
-  right: 0px;
+  top: 0;
+  right: 0;
   height: ${(props) => props.theme.elementSize[props.size]};
   display: flex;
   align-items: center;
