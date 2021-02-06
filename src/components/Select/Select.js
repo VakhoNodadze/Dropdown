@@ -14,6 +14,7 @@ import {
   StyledClear,
   StyledSearchBox
 } from './styled';
+import Flex from 'components/Flex';
 
 import * as icons from '../Icons'
 import Label from '../Label'
@@ -60,7 +61,7 @@ const Select = ({
   const inputRef = useRef()
 
   const Icon = icon ? icons[icon] : null
-  const { Spinner, Check, ChevronDown, ChevronTop, Remove, IconItem } = icons
+  const { Spinner, Check, ChevronDown, ChevronTop, Remove, IconItem, Person } = icons
 
   const id = generateId()
   const [input, setInput] = useState('');
@@ -94,6 +95,16 @@ const Select = ({
 
   const handleClose = () => {
     setIsOpen(false)
+  }
+
+  const handlePersonNumberMinus = () => {
+    if(personNumber > 0){
+      setPersonNumber(prevNumber => prevNumber - 1)
+    }
+  }
+
+  const handlePersonNumberPlus = () => {
+    setPersonNumber(prevNumber => prevNumber + 1)
   }
 
   const handleChange = (e, val) => {
@@ -242,7 +253,7 @@ const Select = ({
     if (selectedOptions.length > 0 && !multiple) {
       const optionFound = options.find(o => o.value === selectedOptions[0])
       return optionFound ?
-          <div style={{ color: '#FC6C44', display: 'flex', alignItems: 'center', fontSize: '15px' }}>
+          <div style={{ color: '#FC6C44', display: 'flex', alignItems: 'center', fontSize: '14px' }}>
             <IconItem name={optionFound.labelLeft} defaultColor='#FC6C44' />
             <span style={{ marginLeft: 5 }}>{optionFound.label}</span>
           </div>
@@ -253,9 +264,19 @@ const Select = ({
     return null
   }
 
+  const renderPersonPlaceholderText = () => {
+    return personNumber > 0 ?
+        <div style={{ color: '#000', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
+          <Person /> <span>{personNumber} People</span>
+        </div>
+        :
+        <div style={{ color: '#000', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
+          <Person /> <span>{placeholder}</span>
+        </div>
+  }
+
   const renderPlaceholder = () => {
     if ((!placeholder || isFocused || input.length > 0) && !hasSearchBox) return null
-
     return (
       <StyledPlaceholder
         className="placeholder"
@@ -273,11 +294,12 @@ const Select = ({
             width: '100%'
           }}
         >
-          {renderPlaceholderText()}
+          {person ? renderPersonPlaceholderText() : renderPlaceholderText()}
         </span>
       </StyledPlaceholder>
     )
   }
+
 
 
   const renderOptionItem = item => (
@@ -358,7 +380,14 @@ const Select = ({
                 isOpen={isOpen}
                 containerDimensions={containerRef?.current?.getBoundingClientRect()}
             >
-              <div>Hello</div>
+              <Flex p={5} justify='between'>
+                <p><Person/> Group Size</p>
+                <Flex>
+                  <button onClick={handlePersonNumberMinus}>-</button>
+                  {personNumber}
+                  <button onClick={handlePersonNumberPlus}>+</button>
+                </Flex>
+              </Flex>
             </StyledOptions>
           </>
       )
@@ -372,7 +401,9 @@ const Select = ({
               isOpen={isOpen}
               containerDimensions={containerRef?.current?.getBoundingClientRect()}
           >
-            <div>Hello</div>
+            <Flex py={10}>
+              <p>Group Size</p>
+            </Flex>
           </StyledOptions>
         </>
     )
@@ -383,7 +414,7 @@ const Select = ({
       ref={containerRef}
       key={name}
       id={name}
-      onClick={isOpen ? handleClose : handleOpen}
+      onClick={handleOpen}
       onKeyDown={handleKeyPress}
       disabled={disabled}
       attached={attached}

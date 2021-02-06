@@ -8,3 +8,4 @@ export { default as ChevronTop } from './ChevronTop';
 export { default as IconItem } from './IconItem';
 export { default as Reserved } from './Reserved';
 export { default as TakeAway } from './TakeAway';
+export { default as Person } from './Person';
