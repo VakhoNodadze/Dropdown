@@ -301,7 +301,7 @@ const Select = ({
   }
 
   const renderPersonPlaceholderText = () => {
-    return personNumber > 0 ?
+    return personNumber > 1 ?
       <div style={{ color: '#000', fontSize: '14px', display: 'flex' }}>
         <Person/> <span>{personNumber} People</span>
       </div>
