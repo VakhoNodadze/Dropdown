@@ -61,7 +61,7 @@ const Select = ({
   const inputRef = useRef()
 
   const Icon = icon ? icons[icon] : null
-  const { Spinner, Check, ChevronDown, ChevronTop, Remove, IconItem, Person } = icons
+  const { Spinner, ChevronDown, ChevronTop, Remove, IconItem, Person } = icons
 
   const id = generateId()
   const [input, setInput] = useState('');
@@ -302,11 +302,11 @@ const Select = ({
 
   const renderPersonPlaceholderText = () => {
     return personNumber > 0 ?
-      <div style={{ color: '#000', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
+      <div style={{ color: '#000', fontSize: '14px', display: 'flex' }}>
         <Person/> <span>{personNumber} People</span>
       </div>
       :
-      <div style={{ color: '#000', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
+      <div style={{ color: '#000', fontSize: '14px', display: 'flex' }}>
         <Person/> <span>{placeholder}</span>
       </div>
   }
@@ -343,7 +343,6 @@ const Select = ({
       {checkbox && (
         <StyledCheckbox isChecked={selectedOptions.includes(item.value)}
                         excluded={excluded.includes(item.value)}>
-          {selectedOptions.includes(item.value) && <Check/>}
           {excluded.includes(item.value) && <Remove color="#fff"/>}
         </StyledCheckbox>
       )}
