@@ -31,7 +31,7 @@ IconItem.propTypes = {
 
 IconItem.defaultProps = {
   defaultColor: '#000',
-  activeColor: '#FC6C44',
+  activeColor: '#000',
   onClick: () => {},
   name: ''
 }

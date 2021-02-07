@@ -11,3 +11,7 @@ export { default as TakeAway } from './TakeAway';
 export { default as Person } from './Person';
 export { default as Plus } from './Plus';
 export { default as Minus } from './Minus';
+export { default as ChevronRight } from './ChevronRight';
+export { default as ChevronLeft } from './ChevronLeft';
+export { default as Burger } from './Burger';
+export { default as Chicken } from './Chicken';

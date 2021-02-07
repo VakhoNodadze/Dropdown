@@ -54,7 +54,7 @@ const Select = ({
   clearOnOpen,
   person,
   calendar,
-    borderRadius,
+  borderRadius,
   ...rest
 }) => {
   const containerRef = useRef()
@@ -73,23 +73,35 @@ const Select = ({
   const [personNumber, setPersonNumber] = useState(0)
 
   const handleClear = e => {
-    if (e) e.preventDefault()
+    if (e) {
+      e.preventDefault()
+    }
     setInput('')
     // setSelectedOptions([])
     onChange('')
     onChangeInput('')
-    if (inputRef.current) inputRef.current.focus()
+    if (inputRef.current) {
+      inputRef.current.focus()
+    }
   }
 
   const handleOpen = () => {
-    if (disabled) return null
+    if (disabled) {
+      return null
+    }
     onOpen()
-    if (openOnFocus) setIsOpen(true)
-    if (input.length > 0) setIsOpen(true)
+    if (openOnFocus) {
+      setIsOpen(true)
+    }
+    if (input.length > 0) {
+      setIsOpen(true)
+    }
     if (clearOnOpen) {
       setInput('')
       onChangeInput('')
-      if (inputRef.current) inputRef.current.focus()
+      if (inputRef.current) {
+        inputRef.current.focus()
+      }
     }
   }
 
@@ -98,7 +110,7 @@ const Select = ({
   }
 
   const handlePersonNumberMinus = () => {
-    if(personNumber > 0){
+    if (personNumber > 0) {
       setPersonNumber(prevNumber => prevNumber - 1)
     }
   }
@@ -111,7 +123,9 @@ const Select = ({
     e.preventDefault()
     e.stopPropagation()
     onChange(tags ? [...selectedOptions, val] : val)
-    if (hideOnChoose) handleClose()
+    if (hideOnChoose) {
+      handleClose()
+    }
     // setInput(search && !multiple ? val : '')
     if (clearOnChoose) {
       setInput('')
@@ -137,7 +151,8 @@ const Select = ({
     [containerRef.current]
   )
 
-  const handleKeyPress = () => {}
+  const handleKeyPress = () => {
+  }
 
 
   // const handleBlur = () => {
@@ -156,7 +171,9 @@ const Select = ({
   // effects
   useEffect(
     () => {
-      if (isOpen) document.addEventListener('mousedown', handleOutsideClick)
+      if (isOpen) {
+        document.addEventListener('mousedown', handleOutsideClick)
+      }
       return () => document.removeEventListener('mousedown', handleOutsideClick)
     },
     [isOpen]
@@ -164,8 +181,12 @@ const Select = ({
 
   useEffect(
     () => {
-      if (!Array.isArray(options)) return undefined
-      if (searchRemotely) return undefined
+      if (!Array.isArray(options)) {
+        return undefined
+      }
+      if (searchRemotely) {
+        return undefined
+      }
       let filtered
       if (startsWith) {
         filtered = options.filter(o => {
@@ -183,14 +204,18 @@ const Select = ({
         })
       }
       setFilteredOptions(filtered)
-      if (tags && input === ',') setInput('')
+      if (tags && input === ',') {
+        setInput('')
+      }
     },
     [input]
   )
 
   useEffect(
     () => {
-      if (Array.isArray(options)) setFilteredOptions(options)
+      if (Array.isArray(options)) {
+        setFilteredOptions(options)
+      }
     },
     [options]
   )
@@ -215,7 +240,7 @@ const Select = ({
     if (loading) {
       return (
         <StyledSpinner>
-          <Spinner />
+          <Spinner/>
         </StyledSpinner>
       )
     }
@@ -223,8 +248,8 @@ const Select = ({
       return (
         <StyledChevronDown className="chevron" size={size}>
           {
-            isOpen ? <ChevronTop /> :
-                <ChevronDown size={size === 'mini' ? 11 : 14} />
+            isOpen ? <ChevronTop/> :
+              <ChevronDown size={size === 'mini' ? 11 : 14}/>
           }
         </StyledChevronDown>
       )
@@ -232,7 +257,7 @@ const Select = ({
     if (searchRemotely && !multiple && selectedOptions.length > 0) {
       return (
         <StyledClear onClick={e => handleClear(e)}>
-          <Remove />
+          <Remove/>
         </StyledClear>
       )
     }
@@ -240,43 +265,56 @@ const Select = ({
   }
 
   const renderPlaceholderText = () => {
-    if (tags && selectedOptions.length > 0) return null
-    if ([...selectedOptions, ...excluded].length > 0 && multiple)
+    if (tags && selectedOptions.length > 0) {
+      return null
+    }
+    if ([...selectedOptions, ...excluded].length > 0 && multiple) {
       return (
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
-          <div style={{ color: 'black' }}>{placeholder}</div>{' '}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center'
+        }}>
+          <div style={{ color: 'black' }}>{placeholder}</div>
+          {' '}
           <Label color="primary" size="small">
             {[...selectedOptions, ...excluded].length}
           </Label>
         </div>
       )
+    }
     if (selectedOptions.length > 0 && !multiple) {
       const optionFound = options.find(o => o.value === selectedOptions[0])
       return optionFound ?
-          <div style={{ color: '#FC6C44', display: 'flex', alignItems: 'center', fontSize: '14px' }}>
-            <IconItem name={optionFound.labelLeft} defaultColor='#FC6C44' />
-            <span style={{ marginLeft: 5 }}>{optionFound.label}</span>
-          </div>
-          :
-          <div style={{ color: '#000' }}>{placeholder}</div>
+        <div style={{ color: '#FC6C44', display: 'flex', alignItems: 'center', fontSize: '14px' }}>
+          <IconItem name={optionFound.labelLeft} defaultColor='#FC6C44'/>
+          <span style={{ marginLeft: 5 }}>{optionFound.label}</span>
+        </div>
+        :
+        <div style={{ color: '#000' }}>{placeholder}</div>
     }
-    if (placeholder) return <div style={{ color: '#000' }}>{placeholder}</div>
+    if (placeholder) {
+      return <div style={{ color: '#000' }}>{placeholder}</div>
+    }
     return null
   }
 
   const renderPersonPlaceholderText = () => {
     return personNumber > 0 ?
-        <div style={{ color: '#000', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
-          <Person /> <span>{personNumber} People</span>
-        </div>
-        :
-        <div style={{ color: '#000', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
-          <Person /> <span>{placeholder}</span>
-        </div>
+      <div style={{ color: '#000', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
+        <Person/> <span>{personNumber} People</span>
+      </div>
+      :
+      <div style={{ color: '#000', fontSize: '14px', display: 'flex', alignItems: 'center' }}>
+        <Person/> <span>{placeholder}</span>
+      </div>
   }
 
   const renderPlaceholder = () => {
-    if ((!placeholder || isFocused || input.length > 0) && !hasSearchBox) return null
+    if ((!placeholder || isFocused || input.length > 0) && !hasSearchBox) {
+      return null
+    }
     return (
       <StyledPlaceholder
         className="placeholder"
@@ -303,28 +341,30 @@ const Select = ({
   const renderOptionItem = item => (
     <div style={{ display: 'flex', flexDirection: 'row', position: 'relative', alignItems: 'center' }}>
       {checkbox && (
-        <StyledCheckbox isChecked={selectedOptions.includes(item.value)} excluded={excluded.includes(item.value)}>
-          {selectedOptions.includes(item.value) && <Check />}
-          {excluded.includes(item.value) && <Remove color="#fff" />}
+        <StyledCheckbox isChecked={selectedOptions.includes(item.value)}
+                        excluded={excluded.includes(item.value)}>
+          {selectedOptions.includes(item.value) && <Check/>}
+          {excluded.includes(item.value) && <Remove color="#fff"/>}
         </StyledCheckbox>
       )}
       {item.labelLeft && (
-          <div
-              style={{
-                zIndex: 10,
-                marginRight: 5
-              }}
-          >
-            <IconItem
-                name={item.labelLeft}
-                activeColor={selectedOptions.includes(item.value) ? '#FC6C44' : 'black'}
-                defaultColor={selectedOptions.includes(item.value) ? '#FC6C44' : 'black'} />
-          </div>
+        <div
+          style={{
+            zIndex: 10,
+            marginRight: 5
+          }}
+        >
+          <IconItem
+            name={item.labelLeft}
+            activeColor={selectedOptions.includes(item.value) ? '#FC6C44' : 'black'}
+            defaultColor={selectedOptions.includes(item.value) ? '#FC6C44' : 'black'}/>
+        </div>
       )}
       <span style={{
         maxWidth: '80%',
         opacity: item.disabled ? 0.4 : 1,
-        color: selectedOptions.includes(item.value) ? '#FC6C44' : 'black' }}>
+        color: selectedOptions.includes(item.value) ? '#FC6C44' : 'black'
+      }}>
         {item.heading ? <h5 style={{ color: item.color }}>{item.label}</h5> : item.label}
       </span>
       {hasExclude && (
@@ -370,56 +410,57 @@ const Select = ({
   }
 
   const renderColor = () => {
-    if(personNumber === 0){
+    if (personNumber === 0) {
       return 'rgba(0,0,0,0.07)';
     }
     return 'rgba(0,0,0,1)'
   }
 
   const renderPersonsGroup = () => {
-      return (
-          <>
-            <StyledOptions
-                className="options"
-                person
-                isOpen={isOpen}
-                containerDimensions={containerRef?.current?.getBoundingClientRect()}
-            >
-              <Flex p={5} justify='between' align='center'>
-                <p> <Person /> Group Size</p>
-                <Flex align='center'>
-                  <Element
-                      onClick={handlePersonNumberMinus}
-                           p={3} border={`1px solid ${renderColor()}`} borderRadius='50%' style={{ cursor: 'pointer' }}>
-                    <IconItem name='Minus' defaultColor={renderColor()} activeColor={renderColor()} />
-                  </Element>
-                  <span style={{ margin: '0 10px' }}>
+    return (
+      <>
+        <StyledOptions
+          className="options"
+          person
+          isOpen={isOpen}
+          containerDimensions={containerRef?.current?.getBoundingClientRect()}
+        >
+          <Flex p={5} justify='between' align='center'>
+            <p><Person/> Group Size</p>
+            <Flex align='center'>
+              <Element
+                onClick={handlePersonNumberMinus}
+                p={3} border={`1px solid ${renderColor()}`} borderRadius='50%'
+                style={{ cursor: 'pointer' }}>
+                <IconItem name='Minus' defaultColor={renderColor()} activeColor={renderColor()}/>
+              </Element>
+              <span style={{ margin: '0 10px' }}>
                   {personNumber}
                   </span>
-                  <Element onClick={handlePersonNumberPlus}
-                           p={3} border='1px solid black' borderRadius='50%' style={{ cursor: 'pointer' }}>
-                    <IconItem name='Plus' activeColor='#000' />
-                  </Element>
-                </Flex>
-              </Flex>
-            </StyledOptions>
-          </>
-      )
+              <Element onClick={handlePersonNumberPlus}
+                       p={3} border='1px solid black' borderRadius='50%' style={{ cursor: 'pointer' }}>
+                <IconItem name='Plus' activeColor='#000'/>
+              </Element>
+            </Flex>
+          </Flex>
+        </StyledOptions>
+      </>
+    )
   }
   const renderCalendar = () => {
     return (
-        <>
-          <StyledOptions
-              className="options"
-              calendar
-              isOpen={isOpen}
-              containerDimensions={containerRef?.current?.getBoundingClientRect()}
-          >
-            <Flex py={10}>
-              <p>Group Size</p>
-            </Flex>
-          </StyledOptions>
-        </>
+      <>
+        <StyledOptions
+          className="options"
+          calendar
+          isOpen={isOpen}
+          containerDimensions={containerRef?.current?.getBoundingClientRect()}
+        >
+          <Flex py={10}>
+            <p>Group Size</p>
+          </Flex>
+        </StyledOptions>
+      </>
     )
   }
 
@@ -437,11 +478,18 @@ const Select = ({
       hasIcon={icon}
       {...rest}
     >
-      <StyledSelectContent className="content" search={search} error={error} size={size} variant={variant} borderRadius={borderRadius}>
+      <StyledSelectContent className="content"
+                           search={search}
+                           error={error}
+                           size={size}
+                           variant={variant}
+                           borderRadius={borderRadius}
+      >
         {renderPlaceholder()}
         {icon && (
           <StyledIcon>
-            <Icon color={isOpen || isFocused || selectedOptions.length > 0 ? 'rgba(0, 0, 0, 0.54)' : '#d9d9d9'} />
+            <Icon
+              color={isOpen || isFocused || selectedOptions.length > 0 ? 'rgba(0, 0, 0, 0.54)' : '#d9d9d9'}/>
           </StyledIcon>
         )}
         {renderRightAbsolute()}
@@ -490,10 +538,14 @@ Select.propTypes = {
 
 Select.defaultProps = {
   name: 'select',
-  onOpen: () => {},
-  onChange: () => {},
-  onChangeInput: () => {},
-  onBlur: () => {},
+  onOpen: () => {
+  },
+  onChange: () => {
+  },
+  onChangeInput: () => {
+  },
+  onBlur: () => {
+  },
   options: [],
   value: null,
   excluded: [],
@@ -514,7 +566,8 @@ Select.defaultProps = {
   variant: 'default',
   hasSearchBox: false,
   hasExclude: false,
-  onExcludeClick: () => {},
+  onExcludeClick: () => {
+  },
   hideOnChoose: true,
   clearOnChoose: true,
   clearOnOpen: true,
